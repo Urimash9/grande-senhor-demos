@@ -48,13 +48,11 @@
 \n/* ===== V3.3 — LINHA AZUL ORGÂNICA GUIADA PELO SCROLL ===== */
 .wrap{position:relative;isolation:isolate}
 .flowline{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:visible}
-.flowline svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.flowline .ghost{fill:none;stroke:#25b8ff;stroke-width:1.35;opacity:.10;filter:drop-shadow(0 0 5px #20b9ff)}
-.flowline .progress{fill:none;stroke:#27baff;stroke-width:2.15;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 3px #29baff) drop-shadow(0 0 9px #168bc9)}
-.flowline .spark{fill:#d8f5ff;filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 10px #28baff)}
+.flowline svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;shape-rendering:geometricPrecision}
+.flowline .ghost{fill:none;stroke:#25b8ff;stroke-width:1.35;opacity:.10;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 5px #20b9ff)}
+.flowline .progress{fill:none;stroke:#27baff;stroke-width:2.15;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 3px #29baff) drop-shadow(0 0 9px #168bc9)}
 .header,.hero,.services,.split,.results,.trust,.cta,.footer{position:relative;z-index:1}
-@media(max-width:480px){.flowline .progress{stroke-width:1.8}.flowline .ghost{stroke-width:1.05}}
-@media(prefers-reduced-motion:reduce){.flowline .progress,.flowline .spark{transition:none!important}}
+@media(prefers-reduced-motion:reduce){.flowline .progress{transition:none!important}}
 
 /* ===== V3.4 — DIREÇÃO VISUAL MOBILE / CIMENTO CONTÍNUO ===== */
 :root{
@@ -112,8 +110,6 @@ body,.wrap{background:var(--gs-petrol-deep)}
   -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 52%,rgba(0,0,0,.82) 65%,rgba(0,0,0,.52) 76%,rgba(0,0,0,.22) 86%,rgba(0,0,0,.05) 94%,transparent 100%)!important;
   mask-image:linear-gradient(90deg,#000 0%,#000 52%,rgba(0,0,0,.82) 65%,rgba(0,0,0,.52) 76%,rgba(0,0,0,.22) 86%,rgba(0,0,0,.05) 94%,transparent 100%)!important;
 }
-/* Linha: sem ponto branco inicial/final nesta etapa visual. */
-.flowline .spark,#flowSpark{display:none!important}
 .flowline .progress{stroke-linecap:round}
 @media(max-width:480px){
   .wrap:before{background-size:auto,auto,720px auto;background-position:center,center,46% top}
@@ -716,7 +712,7 @@ html,body{background:#08191f!important;overflow-x:hidden}
 }
 </style>
 </head><body><main class='wrap'>
-<div class="flowline" aria-hidden="true"><svg id="flowSvg" preserveAspectRatio="none"><path id="flowGhost" class="ghost"/><path id="flowProgress" class="progress"/><circle id="flowSpark" class="spark" r="3.2"/></svg></div>
+<div class="flowline" aria-hidden="true"><svg id="flowSvg" preserveAspectRatio="none"><path id="flowGhost" class="ghost"/><path id="flowProgress" class="progress"/></svg></div>
 
 <header class='header'><div class='brand'><div class='diamond'><b>B</b></div><div class='brandtext'><b>GRANDE SENHOR</b><small>ESTILO · CUIDADO · EXCLUSIVIDADE</small></div></div><div class='hamb'>☰</div></header>
 <section class='hero'><div class='kicker'>Grande Senhor</div><h1>ESTILO.<br>CUIDADO.<br><span>EXCLUSIVIDADE.</span></h1><p><b>Cuidado masculino que vai além do corte.</b><br>Corte, barba, visagismo e procedimentos estéticos em um único espaço, pensado para quem se valoriza.</p><div class='actions'><a class='btn blue'>Agendar horário</a><a class='btn'>Conhecer o espaço →</a></div><div class='scroll'>◉ &nbsp; ROLE PARA EXPLORAR</div></section>
@@ -731,33 +727,33 @@ html,body{background:#08191f!important;overflow-x:hidden}
 </main>
 <script>
 (()=>{
- const wrap=document.querySelector('.wrap'), svg=document.getElementById('flowSvg'), ghost=document.getElementById('flowGhost'), line=document.getElementById('flowProgress'), spark=document.getElementById('flowSpark');
+ const wrap=document.querySelector('.wrap'), svg=document.getElementById('flowSvg'), ghost=document.getElementById('flowGhost'), line=document.getElementById('flowProgress');
  const q=s=>document.querySelector(s);
  let total=0;
- function relY(el,where=.5){const wr=wrap.getBoundingClientRect(),r=el.getBoundingClientRect();return r.top-wr.top+scrollY+(r.height*where)}
+ function relY(el,where=.5){const wr=wrap.getBoundingClientRect(),r=el.getBoundingClientRect();return r.top-wr.top+(r.height*where)}
  function build(){
-   const w=wrap.clientWidth,h=wrap.scrollHeight, pad=Math.max(14,w*.027), L=pad, R=w-pad;
+   const w=wrap.clientWidth,h=wrap.scrollHeight, pad=Math.max(14,w*.027), L=pad, R=w-pad, turn=Math.max(120,Math.min(220,w*.42));
    svg.setAttribute('viewBox',`0 0 ${w} ${h}`); svg.style.height=h+'px';
    const hero=q('.hero'), services=q('.services'), splits=[...document.querySelectorAll('.split')], results=q('.results'), trust=q('.trust'), cta=q('.cta');
    if(splits.length<3)return;
-   const y0=Math.max(18,relY(hero,0)-70), yHero=relY(hero,.98), ySvc=relY(services,.93), yV=relY(splits[0],.96), ySpace=relY(splits[1],.96), yPlans=relY(splits[2],.96), yRes=relY(results,.97), yTrust=relY(trust,.92), yEnd=relY(cta,.62);
+   const y0=Math.max(18,relY(hero,0)-70), yHero=relY(hero,.98), ySvc=relY(services,.93), yV=relY(splits[0],1), ySpace=relY(splits[1],1), yPlans=relY(splits[2],1), yRes=relY(results,.97), yTrust=relY(trust,.92), yEnd=relY(cta,.62);
    const d=[
     `M ${L} ${y0}`,
     `C ${L-2} ${y0+100},${L+5} ${yHero-80},${L+7} ${yHero}`,
     `C ${L+3} ${ySvc-100},${L+8} ${ySvc-25},${L+10} ${ySvc}`,
-    `C ${L+5} ${yV-80},${L+12} ${yV-18},${L+34} ${yV}`,
-    `C ${w*.18} ${yV+18},${w*.72} ${yV-18},${R-25} ${yV+8}`,
-    `C ${R+6} ${yV+20},${R+5} ${ySpace-45},${R} ${ySpace}`,
-    `C ${w*.82} ${ySpace+24},${w*.24} ${ySpace-22},${L+26} ${ySpace+5}`,
-    `C ${L-7} ${ySpace+18},${L-4} ${yPlans-34},${L+8} ${yPlans}`,
-    `C ${w*.22} ${yPlans+24},${w*.74} ${yPlans-18},${R-24} ${yPlans+8}`,
-    `C ${R+7} ${yPlans+20},${R+4} ${yRes-40},${R-2} ${yRes}`,
+    `C ${L+5} ${yV-turn},${L+4} ${yV-turn*.7},${L+4} ${yV-turn*.5}`,
+    `C ${L+4} ${yV-turn*.16},${R-4} ${yV+turn*.16},${R-4} ${yV+turn*.5}`,
+    `C ${R-4} ${yV+turn*.8},${R+3} ${ySpace-turn*.8},${R+3} ${ySpace-turn*.5}`,
+    `C ${R+3} ${ySpace-turn*.16},${L+4} ${ySpace+turn*.16},${L+4} ${ySpace+turn*.5}`,
+    `C ${L+4} ${ySpace+turn*.8},${L-3} ${yPlans-turn*.8},${L-3} ${yPlans-turn*.5}`,
+    `C ${L-3} ${yPlans-turn*.16},${R-4} ${yPlans+turn*.16},${R-4} ${yPlans+turn*.5}`,
+    `C ${R-4} ${yPlans+turn*.8},${R+2} ${yRes-40},${R-2} ${yRes}`,
     `C ${R-6} ${yTrust-30},${R+2} ${yTrust-5},${R-5} ${yTrust+16}`,
     `C ${R-12} ${yEnd-45},${R-20} ${yEnd-12},${R-42} ${yEnd}`
    ].join(' ');
    ghost.setAttribute('d',d); line.setAttribute('d',d); total=line.getTotalLength(); line.style.strokeDasharray=total; update();
  }
- function update(){if(!total)return; const max=Math.max(1,wrap.scrollHeight-innerHeight), p=Math.min(1,Math.max(0,scrollY/max)); const drawn=total*p; line.style.strokeDashoffset=total-drawn; const pt=line.getPointAtLength(Math.max(0,Math.min(total,drawn))); spark.setAttribute('cx',pt.x);spark.setAttribute('cy',pt.y);spark.style.opacity=p>.015?1:0;}
+ function update(){if(!total)return; const top=wrap.getBoundingClientRect().top+scrollY, max=Math.max(1,wrap.scrollHeight-innerHeight), p=Math.min(1,Math.max(0,(scrollY-top)/max)); line.style.strokeDashoffset=total-(total*p);}
  let ticking=false; addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{update();ticking=false});ticking=true}},{passive:true});
  addEventListener('resize',()=>requestAnimationFrame(build)); addEventListener('load',build); document.fonts&&document.fonts.ready.then(build); setTimeout(build,400);
 })();
