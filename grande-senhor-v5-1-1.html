@@ -49,9 +49,9 @@
 .wrap{position:relative;isolation:isolate}
 .flowline{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
 .flowline svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.flowline .progress{fill:none;stroke:#16b9ff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 2px rgba(47,196,255,.78)) drop-shadow(0 0 7px rgba(0,143,218,.42))}
+.flowline .progress{fill:none;stroke:#16b9ff;stroke-width:1.85;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;opacity:.82;filter:drop-shadow(0 0 2px rgba(47,196,255,.58)) drop-shadow(0 0 6px rgba(0,143,218,.28))}
 .header,.hero,.services,.split,.results,.trust,.cta,.footer{position:relative;z-index:1}
-@media(max-width:480px){.flowline .progress{stroke-width:1.75}}
+@media(max-width:480px){.flowline .progress{stroke-width:1.65;opacity:.78}}
 @media(prefers-reduced-motion:reduce){.flowline .progress{filter:drop-shadow(0 0 3px rgba(22,185,255,.35))}}
 
 /* ===== V3.4 — DIREÇÃO VISUAL MOBILE / CIMENTO CONTÍNUO ===== */
@@ -732,25 +732,26 @@ html,body{background:#08191f!important;overflow-x:hidden}
  const q=s=>document.querySelector(s);
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  let segments=[];
- function relY(el,where=.5){return el.offsetTop+(el.offsetHeight*where)}
+ function relY(el,where=.5){const wr=wrap.getBoundingClientRect(),r=el.getBoundingClientRect();return r.top-wr.top+(r.height*where)}
  function build(){
-   const w=wrap.clientWidth,h=wrap.scrollHeight, edge=Math.max(18,Math.min(34,w*.032));
+   const w=wrap.clientWidth,h=wrap.scrollHeight, edge=Math.max(16,Math.min(26,w*.025));
    svg.setAttribute('viewBox',`0 0 ${w} ${h}`); svg.style.height=h+'px';
-   const hero=q('.hero'), services=q('.services'), splits=[...document.querySelectorAll('.split')], results=q('.results'), trust=q('.trust'), cta=q('.cta');
+   const hero=q('.hero'), rail=q('.services .rail'), splits=[...document.querySelectorAll('.split')], results=q('.results'), trust=q('.trust'), cta=q('.cta');
    if(splits.length<3)return;
    const points=[
-    [Math.max(12,relY(hero,0)-40),relY(services,.28),0,16],
-    [relY(services,.48),relY(splits[0],.54),16,43],
-    [relY(splits[0],.75),relY(splits[1],.72),43,20],
-    [relY(splits[1],.91),relY(results,.36),20,48],
-    [relY(results,.58),relY(cta,.72),48,25]
+    {start:Math.max(12,relY(hero,0)-40),end:relY(rail,0)-24,drift:1,bend:3},
+    {start:relY(rail,1)+24,end:relY(splits[0],1)-18,drift:0,bend:4,corner:12},
+    {start:relY(splits[1],1)+18,end:relY(splits[2],1)-18,drift:2,bend:3},
+    {start:relY(results,0)+20,end:relY(trust,.46),drift:1,bend:4},
+    {start:relY(trust,.58),end:relY(cta,.72),drift:0,bend:3}
    ];
    group.replaceChildren();
-   segments=points.map(([start,end,from,to],i)=>{
-     const span=end-start, x1=edge+from, x2=edge+to, bend=edge+(i%2?62:50);
+   segments=points.map(({start,end,drift,bend,corner})=>{
+     const span=end-start, x1=edge, x2=edge+drift, curve=edge+bend;
      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
      path.setAttribute('class','progress');
-     path.setAttribute('d',`M ${x1} ${start} C ${x1-5} ${start+span*.18},${bend} ${start+span*.31},${bend} ${start+span*.48} S ${x2-9} ${start+span*.78},${x2} ${end}`);
+     const vertical=`M ${x1} ${start} C ${x1-1} ${start+span*.22},${curve} ${start+span*.38},${curve} ${start+span*.52} S ${x2-2} ${start+span*.78},${x2} ${end-(corner?14:0)}`;
+     path.setAttribute('d',corner?`${vertical} Q ${x2} ${end-4} ${x2+corner} ${end}`:vertical);
      group.append(path);
      const length=path.getTotalLength(); path.style.strokeDasharray=length; path.style.strokeDashoffset=length;
      return {path,length,start,end};
