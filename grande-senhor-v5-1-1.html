@@ -713,11 +713,62 @@ html,body{background:#08191f!important;overflow-x:hidden}
  .hero::before{background:linear-gradient(90deg,rgba(3,15,18,.90) 0%,rgba(3,17,21,.66) 25%,rgba(3,17,21,.25) 44%,rgba(3,17,21,.04) 64%,transparent 78%),linear-gradient(0deg,rgba(27,35,38,.40) 0%,rgba(17,27,29,.11) 13%,transparent 30%)!important}
 }
 </style>
+<style id="hero-hair-strand">
+/* Mecha editorial da hero: fios independentes, presos ao topo e fora do fluxo. */
+.hero-hair-cut{position:absolute;z-index:3;right:clamp(28px,6vw,76px);top:62px;width:clamp(126px,16vw,158px);aspect-ratio:190/280;pointer-events:none;overflow:visible;filter:drop-shadow(0 10px 13px rgba(0,0,0,.25))}
+.hero-hair-cut .hair-lock{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.hero-hair-cut .hair-lock--deep{stroke:#17242a;stroke-width:8}
+.hero-hair-cut .hair-lock--mid{stroke:#34444a;stroke-width:6}
+.hero-hair-cut .hair-lock--light{stroke:#718086;stroke-width:3.5}
+.hero-hair-cut .hair-thread{fill:none;stroke:#a6b0b3;stroke-width:1.15;stroke-linecap:round;opacity:.55}
+.hero-hair-cut .hair-lower{transform-box:fill-box;transform-origin:top center}
+.hero-hair-cut .scissor{transform-box:fill-box;transform-origin:center;filter:drop-shadow(0 3px 3px rgba(0,0,0,.35));opacity:0;transform:translate(42px,-7px) rotate(-6deg)}
+.hero-hair-cut .scissor-metal{fill:none;stroke:#dce2e3;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.hero-hair-cut .scissor-pivot{fill:#28aef0;stroke:#e9f1f3;stroke-width:1}
+.hero-hair-cut.is-cut .scissor{animation:hero-scissor-cut 2.85s cubic-bezier(.22,.72,.28,1) both}
+.hero-hair-cut.is-cut .scissor-blade-top{animation:hero-blade-top 2.85s ease-in-out both;transform-origin:126px 158px}
+.hero-hair-cut.is-cut .scissor-blade-bottom{animation:hero-blade-bottom 2.85s ease-in-out both;transform-origin:126px 158px}
+.hero-hair-cut.is-cut .hair-lower{animation:hero-hair-fall 2.85s cubic-bezier(.25,.7,.22,1) both}
+@keyframes hero-scissor-cut{0%,12%{transform:translate(42px,-7px) rotate(-6deg);opacity:0}24%{opacity:1}62%{transform:translate(0,0) rotate(0)}78%,100%{transform:translate(-17px,7px) rotate(4deg);opacity:0}}
+@keyframes hero-blade-top{0%,43%{transform:rotate(-12deg)}62%,100%{transform:rotate(0)}}
+@keyframes hero-blade-bottom{0%,43%{transform:rotate(12deg)}62%,100%{transform:rotate(0)}}
+@keyframes hero-hair-fall{0%,59%{transform:translate(0,0) rotate(0);opacity:1}72%{transform:translate(4px,7px) rotate(2deg);opacity:1}100%{transform:translate(17px,68px) rotate(10deg);opacity:0}}
+@media(max-width:640px){.hero-hair-cut{right:8px;top:70px;width:126px;opacity:.84}}
+@media(prefers-reduced-motion:reduce){.hero-hair-cut .scissor{display:none}.hero-hair-cut.is-cut .scissor,.hero-hair-cut.is-cut .scissor-blade-top,.hero-hair-cut.is-cut .scissor-blade-bottom,.hero-hair-cut.is-cut .hair-lower{animation:none!important}.hero-hair-cut.is-cut .hair-lower{opacity:0}}
+</style>
 </head><body><main class='wrap'>
 <div class="flowline" aria-hidden="true"><svg id="flowSvg" preserveAspectRatio="none"><g id="flowSegments"></g></svg></div>
 
 <header class='header'><div class='brand'><div class='diamond'><b>B</b></div><div class='brandtext'><b>GRANDE SENHOR</b><small>ESTILO · CUIDADO · EXCLUSIVIDADE</small></div></div><div class='hamb'>☰</div></header>
-<section class='hero'><div class='kicker'>Grande Senhor</div><h1>ESTILO.<br>CUIDADO.<br><span>EXCLUSIVIDADE.</span></h1><p><b>Cuidado masculino que vai além do corte.</b><br>Corte, barba, visagismo e procedimentos estéticos em um único espaço, pensado para quem se valoriza.</p><div class='actions'><a class='btn blue'>Agendar horário</a><a class='btn'>Conhecer o espaço →</a></div><div class='scroll'>◉ &nbsp; ROLE PARA EXPLORAR</div></section>
+<section class='hero'><svg class="hero-hair-cut" viewBox="0 0 190 280" aria-hidden="true">
+  <g class="hair-upper">
+    <path class="hair-lock hair-lock--deep" d="M88 0 C80 29 88 45 79 72 C70 99 76 124 66 158"/>
+    <path class="hair-lock hair-lock--deep" d="M95 0 C88 24 103 46 94 76 C87 102 98 128 88 158"/>
+    <path class="hair-lock hair-lock--mid" d="M101 0 C100 27 118 48 108 78 C99 106 112 129 105 158"/>
+    <path class="hair-lock hair-lock--mid" d="M82 0 C70 24 70 45 62 69 C53 96 65 126 55 158"/>
+    <path class="hair-lock hair-lock--light" d="M92 0 C83 25 94 49 86 78 C79 106 87 130 78 158"/>
+    <path class="hair-thread" d="M85 0 C74 35 80 48 70 83 C63 110 69 134 61 158"/>
+    <path class="hair-thread" d="M97 0 C96 32 111 51 101 84 C94 111 105 134 96 158"/>
+    <path class="hair-thread" d="M104 0 C108 31 124 52 115 81 C108 108 119 133 112 158"/>
+  </g>
+  <g class="hair-lower">
+    <path class="hair-lock hair-lock--deep" d="M66 158 C61 180 70 199 58 229 C55 237 52 245 48 253"/>
+    <path class="hair-lock hair-lock--deep" d="M88 158 C81 181 94 202 82 236 C79 246 75 255 69 265"/>
+    <path class="hair-lock hair-lock--mid" d="M105 158 C99 181 113 199 102 226 C98 236 95 245 94 253"/>
+    <path class="hair-lock hair-lock--mid" d="M55 158 C49 177 59 192 49 216 C45 225 40 231 37 238"/>
+    <path class="hair-lock hair-lock--light" d="M78 158 C72 179 82 196 72 222 C68 233 63 241 59 249"/>
+    <path class="hair-thread" d="M61 158 C55 181 65 198 54 224 C50 235 44 244 41 249"/>
+    <path class="hair-thread" d="M96 158 C90 183 104 203 93 231 C89 242 86 252 83 260"/>
+    <path class="hair-thread" d="M112 158 C108 180 120 196 111 219 C107 229 105 238 105 246"/>
+  </g>
+  <g class="scissor">
+    <g class="scissor-blade-top"><path class="scissor-metal" d="M126 158 L91 148"/></g>
+    <g class="scissor-blade-bottom"><path class="scissor-metal" d="M126 158 L91 168"/></g>
+    <path class="scissor-metal" d="M126 158 L171 140"/><ellipse class="scissor-metal" cx="173" cy="139" rx="11" ry="7" transform="rotate(-22 173 139)"/>
+    <path class="scissor-metal" d="M126 158 L171 176"/><ellipse class="scissor-metal" cx="173" cy="177" rx="11" ry="7" transform="rotate(22 173 177)"/>
+    <circle class="scissor-pivot" cx="126" cy="158" r="4.5"/>
+  </g>
+</svg><div class='kicker'>Grande Senhor</div><h1>ESTILO.<br>CUIDADO.<br><span>EXCLUSIVIDADE.</span></h1><p><b>Cuidado masculino que vai além do corte.</b><br>Corte, barba, visagismo e procedimentos estéticos em um único espaço, pensado para quem se valoriza.</p><div class='actions'><a class='btn blue'>Agendar horário</a><a class='btn'>Conhecer o espaço →</a></div><div class='scroll'>◉ &nbsp; ROLE PARA EXPLORAR</div></section>
 <section class='services concrete'><div class='sectionhead'><div class='kicker'>Serviços</div><h2>Tudo o que você precisa<br>em um só lugar.</h2><p>Serviços completos de cuidado masculino, com técnica, estética e atendimento de alto nível.</p></div><div class='rail'><article class='service'><img src='https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=900&q=88'><div class='txt'><b>✂ Corte</b><small>Estilo e personalidade para o seu dia a dia.</small></div></article><article class='service'><img src='https://images.unsplash.com/photo-1622296089863-eb7fc530daa8?auto=format&fit=crop&w=900&q=88'><div class='txt'><b>◡ Barba</b><small>Definição e cuidado com a sua estética.</small></div></article><article class='service'><img src='https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=900&q=88'><div class='txt'><b>◇ Visagismo</b><small>Harmonia entre seu estilo, rosto e personalidade.</small></div></article><article class='service'><img src='https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1500&q=90'><div class='txt'><b>♢ Cuidados</b><small>Experiência completa em cuidado masculino.</small></div></article></div><div class='drag'>ARRASTE &nbsp; →</div></section>
 <section class='split darkconcrete'><div class='copy'><div class='kicker'>Visagismo</div><h2>Mais que um corte.<br>Uma identidade.</h2><p>O visagismo considera suas características individuais para criar um estilo que realmente faz sentido para você.</p><a class='btn'>Conheça o visagismo →</a><div class='features'>▧ ANÁLISE DO PERFIL &nbsp; ♙ ESTILO PERSONALIZADO<br>◇ HARMONIA FACIAL &nbsp; ♙ RESULTADO COM IDENTIDADE</div></div><div class='photo'><img src='https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=900&q=88'></div></section>
 <section class='split rev concrete'><div class='photo'><img src='https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1500&q=90'></div><div class='copy'><div class='kicker'>Nosso espaço</div><h2>Uma experiência<br>em cada detalhe.</h2><p>Ambiente moderno, confortável e pensado para oferecer mais do que um serviço: um momento de cuidado e bem-estar.</p><a class='btn'>Conheça a Grande Senhor →</a><div class='features'>♜ AMBIENTE MODERNO<br>♙ ATENDIMENTO DE ALTO NÍVEL<br>◇ CONFORTO E EXCLUSIVIDADE</div></div></section>
@@ -770,6 +821,25 @@ html,body{background:#08191f!important;overflow-x:hidden}
  }
  let ticking=false; addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{update();ticking=false});ticking=true}},{passive:true});
  addEventListener('resize',()=>requestAnimationFrame(build)); reduced.addEventListener&&reduced.addEventListener('change',update); addEventListener('load',build); document.fonts&&document.fonts.ready.then(build); setTimeout(build,400);
+})();
+</script>
+<script>
+(()=>{
+ const strand=document.querySelector('.hero-hair-cut');
+ if(!strand)return;
+ const storageKey='grande-senhor-hero-hair-cut';
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ let played=sessionStorage.getItem(storageKey)==='played';
+ if(played){strand.classList.add('is-cut');return}
+ const play=()=>{
+   if(played)return;
+   played=true;
+   strand.classList.add('is-cut');
+   sessionStorage.setItem(storageKey,'played');
+   removeEventListener('scroll',play);
+ };
+ addEventListener('scroll',play,{passive:true,once:true});
+ if(reduced)strand.setAttribute('data-reduced-motion','true');
 })();
 </script>
 </body></html>
