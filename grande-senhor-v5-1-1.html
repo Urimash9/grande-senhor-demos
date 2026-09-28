@@ -50,6 +50,7 @@
 .flowline{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
 .flowline svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .flowline .progress{fill:none;stroke:#16b9ff;stroke-width:1.85;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;opacity:.82;filter:drop-shadow(0 0 2px rgba(47,196,255,.58)) drop-shadow(0 0 6px rgba(0,143,218,.28))}
+.flowline .progress.final{stroke:url(#flowEndFade)}
 .header,.hero,.services,.split,.results,.trust,.cta,.footer{position:relative;z-index:1}
 @media(max-width:480px){.flowline .progress{stroke-width:1.65;opacity:.78}}
 @media(prefers-reduced-motion:reduce){.flowline .progress{filter:drop-shadow(0 0 3px rgba(22,185,255,.35))}}
@@ -736,22 +737,27 @@ html,body{background:#08191f!important;overflow-x:hidden}
  function build(){
    const w=wrap.clientWidth,h=wrap.scrollHeight, edge=Math.max(16,Math.min(26,w*.025));
    svg.setAttribute('viewBox',`0 0 ${w} ${h}`); svg.style.height=h+'px';
-   const hero=q('.hero'), rail=q('.services .rail'), splits=[...document.querySelectorAll('.split')], results=q('.results'), trust=q('.trust'), cta=q('.cta');
+   const hero=q('.hero'), rail=q('.services .rail'), splits=[...document.querySelectorAll('.split')], results=q('.results'), trust=q('.trust'), ctaButton=q('.cta .btn.blue');
    if(splits.length<3)return;
    const points=[
     {start:Math.max(12,relY(hero,0)-40),end:relY(rail,0)-24,drift:1,bend:3},
     {start:relY(rail,1)+24,end:relY(splits[0],1)-18,drift:0,bend:4,corner:12},
     {start:relY(splits[1],1)+18,end:relY(splits[2],1)-18,drift:2,bend:3},
     {start:relY(results,0)+20,end:relY(trust,.46),drift:1,bend:4},
-    {start:relY(trust,.58),end:relY(cta,.72),drift:0,bend:3}
+    {start:relY(trust,.58),end:relY(ctaButton,1)+24,drift:0,bend:3,final:true}
    ];
    group.replaceChildren();
-   segments=points.map(({start,end,drift,bend,corner})=>{
+   const fade=document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
+   fade.id='flowEndFade'; fade.setAttribute('gradientUnits','userSpaceOnUse'); fade.setAttribute('x1',edge); fade.setAttribute('x2',edge+Math.min(116,w*.2));
+   fade.innerHTML='<stop offset="0" stop-color="#16b9ff"/><stop offset=".72" stop-color="#16b9ff"/><stop offset="1" stop-color="#16b9ff" stop-opacity="0"/>';
+   const defs=document.createElementNS('http://www.w3.org/2000/svg','defs'); defs.append(fade); group.append(defs);
+   segments=points.map(({start,end,drift,bend,corner,final})=>{
      const span=end-start, x1=edge, x2=edge+drift, curve=edge+bend;
      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
      path.setAttribute('class','progress');
-     const vertical=`M ${x1} ${start} C ${x1-1} ${start+span*.22},${curve} ${start+span*.38},${curve} ${start+span*.52} S ${x2-2} ${start+span*.78},${x2} ${end-(corner?14:0)}`;
-     path.setAttribute('d',corner?`${vertical} Q ${x2} ${end-4} ${x2+corner} ${end}`:vertical);
+     const turn=final?18:(corner?14:0), vertical=`M ${x1} ${start} C ${x1-1} ${start+span*.22},${curve} ${start+span*.38},${curve} ${start+span*.52} S ${x2-2} ${start+span*.78},${x2} ${end-turn}`;
+     const d=final?`${vertical} Q ${x2} ${end} ${x2+18} ${end} H ${edge+Math.min(116,w*.2)}`:corner?`${vertical} Q ${x2} ${end-4} ${x2+corner} ${end}`:vertical;
+     path.setAttribute('d',d); if(final)path.classList.add('final');
      group.append(path);
      const length=path.getTotalLength(); path.style.strokeDasharray=length; path.style.strokeDashoffset=length;
      return {path,length,start,end};
