@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/grande-senhor-v5-1-1.html"
+    }
+  ]
+}
